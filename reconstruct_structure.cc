@@ -15,7 +15,7 @@ using std::string;
 #include <iostream>
 #include <memory>
 #include <thread>
-// #include <PinholeCameraIntrinsic.h> 
+// #include <PinholeCameraIntrinsic.h>
 // #include <TSDFVolume.h>
 #include "CUDAFilter.h"
 #include "cuda.h"
@@ -173,16 +173,16 @@ int main(int argc, char **argv)
     depthCameraParams.fy = K_rgb_eigen(1, 1);
     depthCameraParams.mx = K_rgb_eigen(0, 2);
     depthCameraParams.my = K_rgb_eigen(1, 2);
-    depthCameraParams.m_sensorDepthWorldMin = 0.3;
-    depthCameraParams.m_sensorDepthWorldMax = 2.5;
+    depthCameraParams.m_sensorDepthWorldMin = 0.1;
+    depthCameraParams.m_sensorDepthWorldMax = 2;
     int m_width = fSettings["width"];
     int m_heigt = fSettings["height"];
     depthCameraParams.m_imageWidth = m_width;
     depthCameraParams.m_imageHeight = m_heigt;
     open3d::camera::PinholeCameraIntrinsic intrinsic(depthCameraParams.m_imageWidth, depthCameraParams.m_imageHeight, depthCameraParams.fx, depthCameraParams.fy, depthCameraParams.mx, depthCameraParams.my);
     string ws_folder = fSettings["ws_folder"];
-    // std::vector<std::vector<std::string>> associations = ReadSpaceSeparatedText(ws_folder + fSettings["associations"]);
-    std::vector<std::vector<std::string>> associations = ReadSpaceSeparatedText(ws_folder + fSettings["associations_tof"]);
+    std::vector<std::vector<std::string>> associations = ReadSpaceSeparatedText(ws_folder + fSettings["associations"]);
+    std::vector<std::vector<std::string>> associations_tof = ReadSpaceSeparatedText(ws_folder + fSettings["associations_tof"]);
     std::vector<std::vector<std::string>> poses = ReadSpaceSeparatedText(ws_folder + fSettings["campose_path"]);
     float param_depth_scale = 1000.0f;
     const int iterStep = fSettings["iterStep"];
@@ -203,7 +203,7 @@ int main(int argc, char **argv)
     numIter = 2 * ((numIter + 1) / 2);
     open3d::integration::ScalableTSDFVolume volume(
         param_voxel_size,
-        param_voxel_size * 3,
+        param_voxel_size * 2,
         open3d::integration::TSDFVolumeColorType::RGB8
         // ,
         // int     volume_unit_resolution = 16,
@@ -221,11 +221,17 @@ int main(int argc, char **argv)
     colorIntegration = rgbd.color_.data_.data();
     cout << "poses " << poses.size() << endl;
     int iter_end = fSettings["iter_end"];
+    int iter_start = fSettings["iter_start"];
     if (iter_end<=0)
     {
         iter_end = poses.size();
     }
-    for (int i = 0; i < iter_end; i += iterStep)
+    if (iter_start < 0)
+    {
+        iter_start = 0;
+    }
+    
+    for (int i = iter_start; i < iter_end; i += iterStep)
     {
 
         vector<string> pose_vec = poses[i];
@@ -234,20 +240,20 @@ int main(int argc, char **argv)
         vector<string> pose_vec_new(first, end);
         Eigen::Matrix4d cur_pose = ParsePose(pose_vec_new);
         iterIndex = stoi(pose_vec[0]);
-        // string colorNum = associations_tof[iterIndex][0];
-        // iterIndex = -1;
-        // for (size_t tofi = 0; tofi < associations.size(); tofi++)
-        // {
-        //     if (associations[tofi][0].compare(colorNum) == 0)
-        //     {
-        //         iterIndex = tofi;
-        //         break;
-        //     }
-        // }
-        // if (iterIndex == -1)
-        // {
-        //     continue;
-        // }
+        string colorNum = associations_tof[iterIndex][0];
+        iterIndex = -1;
+        for (size_t tofi = 0; tofi < associations.size(); tofi++)
+        {
+            if (associations[tofi][0].compare(colorNum) == 0)
+            {
+                iterIndex = tofi;
+                break;
+            }
+        }
+        if (iterIndex == -1)
+        {
+            continue;
+        }
         
         string color_path = ws_folder + associations[iterIndex][1];
         string depth_path = ws_folder + associations[iterIndex][3];
@@ -274,7 +280,7 @@ int main(int argc, char **argv)
         }
         if (1)
         { //smooth
-            gaussFilterDepthMap(dev_depthIntegration_filter, dev_depthIntegration, 2.0, 0.05, cols, rows);
+            gaussFilterDepthMap(dev_depthIntegration_filter, dev_depthIntegration, 3.0, 0.1, cols, rows);
         }
         cudaMemcpy((void **)rgbd.depth_.data_.data(), dev_depthIntegration_filter, sizeof(float) * cols * rows, cudaMemcpyDeviceToHost);
         // cudaMemcpy((void **)rgbd.depth_.data_.data(), dev_depthIntegration, sizeof(float) * cols * rows, cudaMemcpyDeviceToHost);

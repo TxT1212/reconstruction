@@ -1,0 +1,6 @@
+/home/txt/HW3/reconstruction/build/CMakeFiles/rebuild_cache.dir
+/home/txt/HW3/reconstruction/build/CMakeFiles/reconstruct_structure.dir
+/home/txt/HW3/reconstruction/build/CMakeFiles/BundleFusionDenseRecon.dir
+/home/txt/HW3/reconstruction/build/CMakeFiles/edit_cache.dir
+/home/txt/HW3/reconstruction/build/CMakeFiles/depthdiff.dir
+/home/txt/HW3/reconstruction/build/CMakeFiles/reconstruct_tof.dir

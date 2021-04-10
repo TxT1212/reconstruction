@@ -1,0 +1,86 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.5"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3
+					]
+				}
+			],
+			"name" : "",
+			"projects" : 
+			[
+				{
+					"directoryIndexes" : 
+					[
+						0
+					],
+					"name" : "BundleFusionDenseRecon",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "BundleFusionDenseRecon::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-BundleFusionDenseRecon-54ae1a8968ddfed4ae05.json",
+					"name" : "BundleFusionDenseRecon",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "depthdiff::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-depthdiff-9a31c387dbc7c63dab23.json",
+					"name" : "depthdiff",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "reconstruct_structure::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-reconstruct_structure-3bbadf019f049607a529.json",
+					"name" : "reconstruct_structure",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "reconstruct_tof::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-reconstruct_tof-d0094b19d955691b0d62.json",
+					"name" : "reconstruct_tof",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "/home/txt/HW3/reconstruction/build",
+		"source" : "/home/txt/HW3/reconstruction"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 2
+	}
+}

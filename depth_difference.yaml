@@ -1,0 +1,5 @@
+%YAML:1.0
+
+ws_folder: "/media/txt/data2/data2/fakeface5/out/"
+associations: "associations_depth2tof.txt"
+outpath: "depthDifference"

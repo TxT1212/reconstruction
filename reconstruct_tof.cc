@@ -15,7 +15,7 @@ using std::string;
 #include <iostream>
 #include <memory>
 #include <thread>
-// #include <PinholeCameraIntrinsic.h> 
+// #include <PinholeCameraIntrinsic.h>
 // #include <TSDFVolume.h>
 #include "CUDAFilter.h"
 #include "cuda.h"
@@ -215,16 +215,19 @@ int main(int argc, char **argv)
     color_image_ptr->Prepare(cols, rows, 3, 1);
 
     float *depthOutputFiltered = new float[cols * rows];
+    // std::shared_ptr< open3d::geometry::RGBDImage > rgbd(
     open3d::geometry::RGBDImage rgbd(
         *color_image_ptr,
         *depth_image_ptr);
     colorIntegration = rgbd.color_.data_.data();
     cout << "poses " << poses.size() << endl;
+    // for (int i = 0; i < 1; i+=2)
     int iter_end = fSettings["iter_end"];
     if (iter_end<=0)
     {
         iter_end = poses.size();
     }
+    
     for (int i = 0; i < iter_end; i += iterStep)
     {
 
@@ -287,7 +290,7 @@ int main(int argc, char **argv)
             cur_pose.inverse());
     }
     auto pcd = volume.ExtractTriangleMesh();
-    open3d::io::WriteTriangleMesh(ws_folder + fSettings["pointCloud"], *pcd);
+    open3d::io::WriteTriangleMesh(ws_folder + fSettings["pointCloud"], *pcd, true);
     std::cout << "Hello, World!" << std::endl;
     return 0;
 }
