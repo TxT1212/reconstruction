@@ -1115,7 +1115,7 @@ cuda_fp16.hpp
 /usr/local/cuda/include/cuda_fp16.hpp
 utility
 -
-cstring
+string.h
 -
 
 /usr/local/cuda/include/cuda_runtime_api.h

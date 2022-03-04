@@ -18,8 +18,8 @@ add_definitions(-O3)
 # cuda
 find_package(CUDA REQUIRED MODULE)
 if(CUDA_FOUND)
-    message(${CUDA_INCLUDE_DIRS})
-    message(${CUDA_LIBRARIES})
+    # message(${CUDA_INCLUDE_DIRS})
+    # message(${CUDA_LIBRARIES})
     # message(${CUDA_LIBRARY_PATH})
     include_directories(${CUDA_INCLUDE_DIRS})
 endif()
@@ -60,7 +60,7 @@ cuda_add_executable(reconstruct_structure
 )
 add_executable(depthdiff depth_difference.cc)
 target_link_libraries(depthdiff ${OpenCV_LIBS})
-message(${Open3D_LIBRARIES})
+# message(${Open3D_LIBRARIES})
 target_link_libraries(BundleFusionDenseRecon
     ${CUDA_LIBARIES}
     ${Glog_LIBRARIES}

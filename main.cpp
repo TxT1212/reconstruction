@@ -88,6 +88,8 @@ Eigen::Matrix4d ParsePose(std::vector<std::string> pose)
     anwser(1, 3) = cy;
     anwser(2, 3) = cz;
     anwser(3, 3) = 1;
+    anwser(3, 0) = anwser(3, 1) = anwser(3, 2) = 0;
+
     // cout << anwser << endl;
     return anwser;
 }
@@ -174,7 +176,7 @@ int main(int argc, char **argv)
     depthCameraParams.mx = K_rgb_eigen(0, 2);
     depthCameraParams.my = K_rgb_eigen(1, 2);
     depthCameraParams.m_sensorDepthWorldMin = 0.3;
-    depthCameraParams.m_sensorDepthWorldMax = 2.5;
+    depthCameraParams.m_sensorDepthWorldMax = 1;
     int m_width = fSettings["width"];
     int m_heigt = fSettings["height"];
     depthCameraParams.m_imageWidth = m_width;

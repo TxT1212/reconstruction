@@ -88,6 +88,7 @@ Eigen::Matrix4d ParsePose(std::vector<std::string> pose)
     anwser(1, 3) = cy;
     anwser(2, 3) = cz;
     anwser(3, 3) = 1;
+    anwser(3, 0) = anwser(3, 1) = anwser(3, 2) = 0;
     // cout << anwser << endl;
     return anwser;
 }
